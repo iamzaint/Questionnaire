@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="StealthBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbl_Questionnaire">
+          <Key>
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="QuestionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionCategory" Type="int" />
+          <Property Name="Question" Type="nvarchar" MaxLength="250" />
+          <Property Name="Answer" Type="nvarchar" MaxLength="50" />
+          <Property Name="QuestionNote" Type="nvarchar" MaxLength="50" />
+          <Property Name="Point" Type="tinyint" />
+          <Property Name="SubQuestion" Type="bit" />
+          <Property Name="IsParent" Type="bit" />
+          <Property Name="IsChild" Type="bit" />
+          <Property Name="ParentID" Type="nchar" MaxLength="10" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedOn" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="Inactive" Type="bit" Nullable="false" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_QuestionnaireCategory">
+          <Key>
+            <PropertyRef Name="QuestionCategoryID" />
+          </Key>
+          <Property Name="QuestionCategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionCategoryName" Type="nvarchar" MaxLength="50" />
+          <Property Name="inactive" Type="bit" />
+        </EntityType>
+        <EntityContainer Name="StealthBaseModelStoreContainer">
+          <EntitySet Name="tbl_Questionnaire" EntityType="Self.tbl_Questionnaire" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_QuestionnaireCategory" EntityType="Self.tbl_QuestionnaireCategory" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StealthBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tbl_Questionnaire">
+          <Key>
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="QuestionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionCategory" Type="Int32" />
+          <Property Name="Question" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Answer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="QuestionNote" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Point" Type="Byte" />
+          <Property Name="SubQuestion" Type="Boolean" />
+          <Property Name="IsParent" Type="Boolean" />
+          <Property Name="IsChild" Type="Boolean" />
+          <Property Name="ParentID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedOn" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="Inactive" Type="Boolean" Nullable="false" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_QuestionnaireCategory">
+          <Key>
+            <PropertyRef Name="QuestionCategoryID" />
+          </Key>
+          <Property Name="QuestionCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionCategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="inactive" Type="Boolean" />
+        </EntityType>
+        <EntityContainer Name="StealthBaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbl_Questionnaire" EntityType="Self.tbl_Questionnaire" />
+          <EntitySet Name="tbl_QuestionnaireCategory" EntityType="Self.tbl_QuestionnaireCategory" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StealthBaseModelStoreContainer" CdmEntityContainer="StealthBaseEntities">
+          <EntitySetMapping Name="tbl_Questionnaire">
+            <EntityTypeMapping TypeName="StealthBaseModel.tbl_Questionnaire">
+              <MappingFragment StoreEntitySet="tbl_Questionnaire">
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+                <ScalarProperty Name="QuestionCategory" ColumnName="QuestionCategory" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="QuestionNote" ColumnName="QuestionNote" />
+                <ScalarProperty Name="Point" ColumnName="Point" />
+                <ScalarProperty Name="SubQuestion" ColumnName="SubQuestion" />
+                <ScalarProperty Name="IsParent" ColumnName="IsParent" />
+                <ScalarProperty Name="IsChild" ColumnName="IsChild" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Inactive" ColumnName="Inactive" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_QuestionnaireCategory">
+            <EntityTypeMapping TypeName="StealthBaseModel.tbl_QuestionnaireCategory">
+              <MappingFragment StoreEntitySet="tbl_QuestionnaireCategory">
+                <ScalarProperty Name="QuestionCategoryID" ColumnName="QuestionCategoryID" />
+                <ScalarProperty Name="QuestionCategoryName" ColumnName="QuestionCategoryName" />
+                <ScalarProperty Name="inactive" ColumnName="inactive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

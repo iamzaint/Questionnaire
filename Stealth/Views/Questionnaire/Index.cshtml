@@ -1,0 +1,166 @@
+﻿@model StealthLibrary.DBModel.tbl_Questionnaire
+
+@{
+    ViewBag.Title = "Index";
+}
+<section class="statistic statistic2">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- DATA TABLE -->
+                <h3 class="title-5 m-b-35">Questionnaire</h3>
+                <div class="table-data__tool">
+                    <div class="table-data__tool-left"> </div>
+                    <button class="au-btn au-btn-icon au-btn--green au-btn--small" onclick="location.href='@Url.Action("create", "Questionnaire")'">
+                        <i class="zmdi zmdi-plus"></i>add more
+                    </button>
+                </div>
+                <div class="table-responsive table-responsive-data2">
+                    <table class="table table-data2">
+                        <thead>
+                            <tr>
+                                <th>Sr#</th>
+                                <th>Category</th>
+                                <th>Question</th>
+                                <th>Answer</th>
+                                <th>date</th>
+                                <th>Nature</th>
+                                <th>status</th>
+                              
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int counter = 1;
+                                int subcounter = 1;
+
+                                foreach (var item in Model.getAllQuestionnairedata().OrderByDescending(x => x.QuestionID))
+                                {
+                            <tr class="tr-shadow">
+                                <td>@counter</td>
+                                <td>@item.QuestionCategory</td>
+                                <td>
+                                    <span class="block-email">@item.Question</span>
+                                </td>
+                                <td class="desc">@item.Answer</td>
+                                <td>@item.CreatedDate</td>
+                                <td>
+                                    <span class="role admin">Parent</span>
+                                </td>
+                                <td>
+                                    @if (item.Inactive == true)
+                                    {
+                                        <span class="status--denied">Denied</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status--process">True</span>
+                                    }
+                                </td>
+
+                                <td>
+                                    <div class="table-data-feature">
+
+                                        <button class="item" data-toggle="tooltip" data-placement="top" onclick="Edit(@item.QuestionID)" title="Edit">
+                                            <i class="zmdi zmdi-edit"></i>
+                                        </button>
+                                        <button class="item" data-toggle="tooltip" data-placement="top" onclick="Delete(@item.QuestionID)" title="Delete">
+                                            <i class="zmdi zmdi-delete"></i>
+                                        </button>
+
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                                    if (item.SubQuestion == true)
+                                    {
+                                        foreach (var itemSub in Model.GetAllSUBQuestionnairedata(item.QuestionID.ToString()))
+                                        {
+                            <tr class="tr-shadow">
+                                <td>@counter.@subcounter</td>
+                                <td>@itemSub.QuestionCategory</td>
+                                <td>
+                                    <span class="block-email">@itemSub.Question</span>
+                                </td>
+                                <td class="desc">@itemSub.Answer</td>
+                                <td>@itemSub.CreatedDate</td>
+                                <td>
+                                    <span class="role member">Child</span>
+                                </td>
+                                <td>
+                                    @if (itemSub.Inactive == true)
+                                    {
+                                        <span class="status--denied">Denied</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status--process">True</span>
+                                    }
+                                </td>
+
+                                <td>
+                                    <div class="table-data-feature">
+
+                                        <button class="item" data-toggle="tooltip" data-placement="top" onclick="Edit(@itemSub.QuestionID)" title="Edit">
+                                            <i class="zmdi zmdi-edit"></i>
+                                        </button>
+                                        <button class="item" data-toggle="tooltip" data-placement="top" onclick="Delete(@itemSub.QuestionID)" title="Delete">
+                                            <i class="zmdi zmdi-delete"></i>
+                                        </button>
+
+                                    </div>
+                                </td>
+
+                            </tr>
+                                            subcounter++;
+                                        }
+                                    }
+                                    counter++;
+
+                                }
+                                }
+
+                        </tbody>
+                        </table>
+                    </div>
+                    <!-- END DATA TABLE -->
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+<script>
+    function Edit(id) {
+        window.location.href = "/Questionnaire/Edit/" + id
+    }
+
+    function Delete(id) {
+       // window.location.href = "/Questionnaire/delete/" + id 
+        $.ajax({
+            url: "/Questionnaire/delete",
+            dataType: 'json',
+            type: 'GET',
+            data: { id: id },
+            contentType: "application/json",
+            success: function (result) {
+                if (result.Status) {
+                    alert("client deleted");
+                }
+                else {
+                   
+                    alert("Record not updated due to some server error.");
+                }
+                $('#dvProg').hide();
+            },
+            error: function (xdr) {
+            }
+        });
+    }
+
+
+</script>
+
+

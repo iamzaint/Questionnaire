@@ -1,0 +1,168 @@
+﻿@model StealthLibrary.DBModel.tbl_Questionnaire
+
+@{
+    ViewBag.Title = "create";
+}
+
+
+
+@using (@Html.BeginForm("Save", "Questionnaire", FormMethod.Post, new { @id = "myform" }))
+{
+    @Html.AntiForgeryToken()
+    <section class="statistic statistic2">
+        <div class="container">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">Add Questionnaire</div>
+                    <div class="card-body">
+                        @Html.ActionLink("Back to List", "Index")
+                        <hr>
+                        <form action="" method="post" novalidate="novalidate">
+                            <div class="form-group">
+                                <label for="cc-payment" class="control-label mb-1">Questionnaire Category</label>
+                                <select name="QuestionCategory" id="QuestionCategory" class="form-control-md form-control">
+                                    @{
+
+                                        var Typlist = new StealthLibrary.DBModel.tbl_Questionnaire().LoadQuestionCategory();
+
+                                        foreach (var item in Typlist)
+                                        {
+                                            <option value="@item.QuestionCategoryID"> @item.QuestionCategoryName </option>
+                                        }
+
+                                    }
+
+                                </select>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group" id="optionalPARENT">
+                                        <label for="cc-number" class="control-label mb-1">Is Parent</label>
+                                        @Html.EditorFor(model => model.IsParent, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+
+                                    </div>
+                                </div>
+                                <div class="col-6" id="optionalCHILD">
+                                    <label for="x_card_code" class="control-label mb-1">Is Child</label>
+                                    <div class="input-group">
+                                        @Html.EditorFor(model => model.IsChild, new { htmlAttributes = new { @class = "form-control" } })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="optional">
+                                <label for="cc-payment" class="control-label mb-1">Questionnaire is Parent of ?</label>
+                                <select name="ParentID" id="ParentID" class="form-control-md form-control">
+                                   @* <option value="0">Not Set</option>*@
+                                    @{
+                                        var ParentList = new StealthLibrary.DBModel.tbl_Questionnaire().getAllQuestionnairedata().Where(x => x.IsParent == true);
+
+                                        foreach (var Pitem in ParentList)
+                                        {
+                                            <option value="@Pitem.QuestionID"> @Pitem.Question </option>
+                                        }
+
+                                    }
+
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="cc-payment" class="control-label mb-1">Question</label>
+                                @* <input id="cc-pament" name="cc-payment" type="text" class="form-control" aria-required="true" aria-invalid="false" value="100.00">*@
+                                @Html.EditorFor(model => model.Question, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+
+                            </div>
+                            <div class="form-group has-success">
+                                <label for="cc-name" class="control-label mb-1">Answer</label>
+                                @Html.EditorFor(model => model.Answer, new { htmlAttributes = new { @class = "form-control" } })
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="cc-exp" class="control-label mb-1">Inactive</label>
+                                        @Html.EditorFor(model => model.Inactive)
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div>
+                                @*type="submit"*@
+                                <button id="" onclick="postform()" class="btn btn-lg btn-info btn-block">
+                                    <i class="fa fa-save fa-lg"></i>&nbsp;
+                                    <span id="">Proceed</span>
+
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript">
+
+    if ('@Model.IsView' == 'True') {
+        if ('@Model.IsParent' == 'False') {
+            $("#optional").show();
+        }
+        else {
+            $("#optional").hide();
+        }
+        }
+
+    debugger;
+    //$("#optional").hide();
+    $("#IsParent").change(function () {
+        if ($(this).val() === "true") {
+            $("#optional").hide();
+            $("#optionalCHILD").hide();
+            
+
+        } else {
+            $("#optional").show();
+            $("#optionalCHILD").show();
+            
+        }
+    });
+
+    $("#IsChild").change(function () {
+        if ($(this).val() === "true") {
+            $("#optionalPARENT").hide();
+          
+            $("#optional").show();
+
+        } else {
+            $("#optionalPARENT").show();
+           
+
+        }
+    });
+
+
+    function postform() {
+        debugger;
+        var ReturnValue = false
+
+        var IsParent = $('#IsParent option:selected').text();
+        var IsChild = $('#IsChild option:selected').text();
+    
+        if (IsParent == "Not Set" && IsChild == "Not Set") {
+            ReturnValue = false;           
+        }
+
+
+        if (ReturnValue) {
+            $("#myform").submit();
+
+        }
+
+    }
+  
+</script>
